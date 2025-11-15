@@ -8,7 +8,7 @@ protoc_binary(
     visibility = ["PUBLIC"],
 )
 
-subinclude("//infrastructure/build_defs:github_release_asset", "//infrastructure/build_defs:remote", "//build_defs:proto")
+subinclude("//infrastructure/build_defs:github_release_asset", "//infrastructure/build_defs:remote", "//infrastructure/build_defs:proto_extensions")
 
 def google_api(
         name,

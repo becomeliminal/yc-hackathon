@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package rickroll.v1;
+
+option go_package = "rickroll/proto;rickrollpb";
+
+import "google/api/annotations.proto";
+
+// RickRollService - Pay to get rickrolled!
+service RickRollService {
+  // GetRickRoll returns the iconic rickroll content
+  // Requires payment: $0.01 USDC
+  rpc GetRickRoll(GetRickRollRequest) returns (GetRickRollResponse) {
+    option (google.api.http) = {
+      get: "/v1/rickroll"
+    };
+  }
+
+  // GetInfo returns service information (free endpoint)
+  rpc GetInfo(GetInfoRequest) returns (GetInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/info"
+    };
+  }
+}
+
+// GetRickRollRequest is empty - just pay and receive
+message GetRickRollRequest {}
+
+// GetRickRollResponse contains the rickroll payload
+message GetRickRollResponse {
+  // The legendary lyrics
+  string lyrics = 1;
+
+  // YouTube video URL
+  string video_url = 2;
+
+  // Animated GIF (base64 encoded)
+  bytes gif = 3;
+
+  // Payment receipt information
+  PaymentReceipt receipt = 4;
+}
+
+// PaymentReceipt contains payment settlement details
+message PaymentReceipt {
+  // On-chain transaction hash
+  string transaction_hash = 1;
+
+  // Amount paid in base units
+  string amount_paid = 2;
+
+  // Token symbol (e.g., "USDC")
+  string token_symbol = 3;
+
+  // Payer's wallet address
+  string payer_address = 4;
+
+  // Settlement timestamp
+  int64 settled_at = 5;
+}
+
+// GetInfoRequest is empty
+message GetInfoRequest {}
+
+// GetInfoResponse describes the service
+message GetInfoResponse {
+  // Service description
+  string description = 1;
+
+  // Price in USD
+  string price_usd = 2;
+
+  // Accepted payment tokens
+  repeated TokenInfo accepted_tokens = 3;
+
+  // Total rickrolls served
+  int64 total_rickrolls = 4;
+}
+
+// TokenInfo describes an accepted payment token
+message TokenInfo {
+  // Token symbol (e.g., "USDC", "DAI")
+  string symbol = 1;
+
+  // Blockchain network (e.g., "base-sepolia")
+  string network = 2;
+
+  // Contract address
+  string contract_address = 3;
+}

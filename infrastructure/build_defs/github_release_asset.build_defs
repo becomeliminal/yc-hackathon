@@ -1,0 +1,62 @@
+def github_release_asset(
+        name:str, repo:str, tag:str, file:str=None, extract:bool=False, out:str=None,
+        outs:list=[], hashes:list=None, binary:bool=False, licences:list=None,
+        labels:list=[], visibility=None, archive=False,
+):
+    """Fetches an asset from a GitHub release, optionally extracting it and outputting a subset of
+    the files within it if it is an archive.
+
+    Our third-party dependency monitor "watches" the GitHub repository for newer releases than the
+    one given by the "tag" parameter and alerts us when a newer one is published.
+
+    Args:
+      name (str): Name of the target.
+      repo (str): Repository hosting the asset (e.g. "thought-machine/please").
+      tag (str): The tag name associated with the release (not the release name itself). On the
+                 GitHub releases web page, this can be found on the left-hand side, below the
+                 username of the user who created the release.
+      file (str): The filename of the asset to fetch. This must be listed in the "Assets" section of
+                  the release - other download links listed in the release description cannot be
+                  downloaded by this rule.
+      extract (bool): Whether to extract the contents of the asset. Requires the asset to be an
+                      archive that Please is capable of extracting. Defaults to False.
+      out (str): If extract is True, all files in the downloaded archive will be extracted into this
+                 directory; if extract is False, the downloaded asset will be renamed to this.
+                 Defaults to None: the target's output is a single file with the same name as the
+                 "file" parameter.
+      outs (list): If extract is True, indicates a subset of the files or directories in the
+                   downloaded archive that the target should output. Defaults to the empty list: all
+                   of the archive's contents are outputted.
+      hashes (list): Hash(es) of the downloaded release asset.
+      binary (bool): If True, mark the outputs of this target as executable.
+      licences (list): The licences that this release asset are distributed under.
+      labels (list): Labels to apply to the target.
+      visibility (list): The visibility of this target.
+    """
+    if len(outs) > 0 and not extract:
+        log.fatal('%s: "outs" has no meaning unless extract = True (did you mean to use "out"?)' %
+                  canonicalise(":" + name))
+
+    dependency_metadata = {
+        "target": canonicalise(":" + name),
+        "type": "github_release",
+        "repo": repo,
+        "tag": tag,
+    }
+
+    url = f"https://github.com/{repo}/releases/download/{tag}/{file}"
+    if archive:
+        url = f"https://github.com/{repo}/archive/refs/tags/{tag}.tar.gz"
+
+    return remote_file(
+        name = name,
+        out = out,
+        url = url,
+        hashes = hashes,
+        labels = ["dependency_metadata:" + json(dependency_metadata)] + labels,
+        extract = extract,
+        exported_files = outs,
+        binary = binary,
+        licences = licences,
+        visibility = visibility,
+    )
