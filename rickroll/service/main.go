@@ -90,8 +90,8 @@ func startHTTPGateway(httpPort, grpcPort int) error {
 				Description: "Get premium content",
 				AcceptedTokens: []x402.TokenRequirement{
 					{
-						Network:       "base",
-						AssetContract: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base Mainnet
+						Network:       "arbitrum-one",
+						AssetContract: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // USDC on Arbitrum One
 						Symbol:        "USDC",
 						Recipient:     *recipientAddress,
 						TokenName:     "USD Coin",

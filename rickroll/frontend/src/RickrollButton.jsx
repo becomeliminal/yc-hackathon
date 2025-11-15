@@ -104,11 +104,11 @@ async function signEIP3009Payment(requirement, userAddress, signTypedDataAsync) 
   // Convert amount to token units (USDC has 6 decimals)
   const amountInUnits = parseUnits(requirement.maxAmountRequired, 6)
 
-  // EIP-712 domain for USDC on Base Mainnet
+  // EIP-712 domain for USDC on Arbitrum
   const domain = {
     name: 'USD Coin',
     version: '2',
-    chainId: 8453, // Base Mainnet
+    chainId: 42161, // Arbitrum One
     verifyingContract: requirement.assetContract,
   }
 
