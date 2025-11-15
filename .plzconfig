@@ -1,0 +1,37 @@
+; Please config file
+; Leaving this file as is is enough to use plz to build your project.
+; Please will stay on whatever version you currently have until you run
+; 'plz update', when it will download the latest available version.
+;
+; Or you can uncomment the following to pin everyone to a particular version;
+; when you change it all users will automatically get updated.
+[please]
+version = 17.8.7
+
+[parse]
+preloadsubincludes = ///go//build_defs:go
+preloadsubincludes = ///proto//build_defs:proto
+preloadsubincludes = ///go_proto//build_defs:go_proto
+
+[buildconfig]
+grpc-gateway-plugin = //third_party/go:protoc-gen-grpc-gateway
+grpc-gateway-go-dep = //third_party/go:grpc_gateway
+
+[Plugin "go"]
+Target = //plugins:go
+gotool = //third_party/go:gotool|go
+defaultstatic = true
+
+[build]
+PassEnv = GOPROXY,GOSUMDB,GONOSUMDB
+
+[Plugin "proto"]
+Target = //plugins:proto
+ProtocTool = //third_party/proto:protoc
+
+[Plugin "go_proto"]
+Target = //plugins:go_proto
+ProtoPlugin = //third_party/go:protoc-gen-go
+GrpcPlugin = //third_party/go:protoc-gen-go-grpc
+GrpcDep = //third_party/go:grpc
+ProtoDep = //third_party/go:google.golang.org.protobuf
