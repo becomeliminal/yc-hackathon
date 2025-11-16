@@ -32,25 +32,24 @@ function App() {
             <iframe
               width="560"
               height="315"
-              src={videoUrl}
+              src={`${videoUrl}?autoplay=1`}
               title="Premium Content"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
-            <button
-              onClick={() => setVideoUrl(null)}
-              style={{ marginTop: '20px' }}
-            >
-              Get More Content
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+              <button onClick={() => setVideoUrl(null)}>
+                Get More Content
+              </button>
+            </div>
           </div>
         )}
 
         {!isConnected && (
           <div className="info-section">
             <p>Connect your wallet to get started</p>
-            <p className="small">Make sure you're on Base Mainnet with USDC</p>
+            <p className="small">Make sure you're on Arbitrum One with USDC</p>
           </div>
         )}
       </main>

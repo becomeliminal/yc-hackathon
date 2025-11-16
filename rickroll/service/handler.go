@@ -47,7 +47,7 @@ func (s *RickRollServer) GetRickRoll(ctx context.Context, req *pb.GetRickRollReq
 	// TODO: Add actual content here (lyrics, video URL, GIF, etc.)
 	return &pb.GetRickRollResponse{
 		Lyrics:   "Premium content goes here - add your own text",
-		VideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+		VideoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
 		Gif:      []byte{}, // Add GIF bytes if needed
 		Receipt:  receipt,
 	}, nil
